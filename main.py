@@ -3,48 +3,65 @@ import sys
 from Calculator import Calculator
 from Fraction import Fraction
 
-def main(args : list):
-    #operation = "? 1_3/2 * 3_3/4 * 1_1/4 +  5_11/24 / 3/2"
-
+# resolve in place higher precedence operations returns a list with the operations
+def resolve_higher_precedence_operations(operations: list) -> list:
     index = 2
-    while index < len(args)-1:
-        fraction1 = Fraction(args[index-1])
-        fraction2 = Fraction(args[index+1])
-        operand = args[index]
+    jump_to_operand = 2
+    #I move in spaces of 2 because the operands are in pair directions as args starts in 1
+
+    # maybe can use an additional stack to avoid the cost of the pop intermediate
+    while index < len(operations) - 1:
+        fraction1 = Fraction(operations[index - 1])
+        fraction2 = Fraction(operations[index + 1])
+        operand = operations[index]
         solved = Calculator(fraction1, fraction2)
         if operand == "*":
             result = solved.multiplication()
-            args[index-1] = result.convert_to_string()
-            args.pop(index)
-            args.pop(index)
-            index -= 2
+            operations[index - 1] = result.convert_to_string()
+            operations.pop(index)
+            operations.pop(index)
+            index -= jump_to_operand
         if operand == "/":
             result = solved.division()
-            args[index - 1] = result.convert_to_string()
-            args.pop(index)
-            args.pop(index)
-            index -= 2
-        index += 2
+            operations[index - 1] = result.convert_to_string()
+            operations.pop(index)
+            operations.pop(index)
+            index -= jump_to_operand
+        index += jump_to_operand
+    return operations
+
+
+#takes the list of operations with only sums and rests and returns the final result
+def resolve_lower_precedence_operations(operations: list) -> str:
     index = 2
-    while index < len(args) - 1:
-        fraction1 = Fraction(args[index - 1])
-        fraction2 = Fraction(args[index + 1])
-        operand = args[index]
+    jump_to_operand = 2
+    # I move in spaces of 2 because the operands are in pair directions as args starts in 1
+    while index < len(operations) - 1:
+        fraction1 = Fraction(operations[index - 1])
+        fraction2 = Fraction(operations[index + 1])
+        operand = operations[index]
         solved = Calculator(fraction1, fraction2)
         if operand == "+":
             result = solved.addition()
-            args[index - 1] = result.convert_to_string()
-            args.pop(index)
-            args.pop(index)
-            index -= 2
+            operations[index - 1] = result.convert_to_string()
+            operations.pop(index)
+            operations.pop(index)
+            index -= jump_to_operand
         if operand == "-":
             result = solved.subtraction()
-            args[index - 1] = result.convert_to_string()
-            args.pop(index)
-            args.pop(index)
-            index -= 2
-        index += 2
-    print(args[1])
+            operations[index - 1] = result.convert_to_string()
+            operations.pop(index)
+            operations.pop(index)
+            index -= jump_to_operand
+        index += jump_to_operand
+    return operations[1]
+
+#method to parse parameters and resolve operations
+def resolve_operations(operations: list) -> str:
+#operation = "? 1_3/2 * 3_3/4 * 1_1/4 +  5_11/24 / 3/2"
+    operations_to_resolve = resolve_higher_precedence_operations(operations)
+    result = resolve_lower_precedence_operations(operations_to_resolve)
+    return result
 
 
 if __name__ == '__main__':
@@ -55,4 +72,4 @@ if __name__ == '__main__':
               "? 1/2 * 3_3/4\n"
               "? 2_3/8 + 9/8\n")
         sys.exit(2)
-    main(sys.argv)
+    print(resolve_operations(sys.argv))
