@@ -1,6 +1,7 @@
 #class to process fraction properties, transform and simplify
 import sys
-#the fraction class takes a string and converts to numerator/denomintator fraction.
+#the fraction class takes a string and converts to numerator/denominator fraction.
+
 
 class Fraction:
     def __init__(self, fraction: str):
@@ -29,6 +30,7 @@ class Fraction:
             print("wrong fraction format")
             sys.exit(1)
         return numerator, denominator
+
 ##converts the denominator, numerator to a proper fraction with integer part(if required) and numerator/denominator simplified i.e 13/4 3_1/2
 ##doesnt handle negatives
     def convert_to_string(self) -> str:
@@ -40,6 +42,7 @@ class Fraction:
         fraction += fractional_part if fractional_part != "" else ""
         fraction = fraction.replace("_", "") if fractional_part == "" else fraction
         return fraction
+
 #simplifies the fraction to the lowest denominator possible
     def simplify_fraction(self):
         common_divisor = 2
@@ -49,6 +52,7 @@ class Fraction:
                 self.denominator //= common_divisor
                 common_divisor = 1
             common_divisor += 1
+
 #method in case we want to initialize the fraction with denominator, numerator integers
     def initialize_with_num_den(self, numerator, denominator):
         self.numerator = numerator
