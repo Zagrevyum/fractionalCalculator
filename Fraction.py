@@ -6,6 +6,7 @@ import sys
 class Fraction:
     def __init__(self, fraction: str):
         self.numerator, self.denominator = self.convert_to_fraction(fraction)
+
     ## parses the string adding the integer part if existing to the fraction part returning integers -> numerator, denominator
     def convert_to_fraction(self, fraction: str):
         if fraction == "":
@@ -25,21 +26,24 @@ class Fraction:
             if denominator == 0:
                 print("Exception: Denominator can't be Zero")
                 sys.exit(1)
-            numerator = int(fraction.split("/")[0]) + integer_part*denominator
+            numerator = int(fraction.split("/")[0]) + abs(integer_part)*denominator
+            numerator = numerator if integer_part >= 0 else -1*numerator
         except IndexError:
             print("wrong fraction format")
             sys.exit(1)
         return numerator, denominator
 
 ##converts the denominator, numerator to a proper fraction with integer part(if required) and numerator/denominator simplified i.e 13/4 3_1/2
-##doesnt handle negatives
+##handles negatives
     def convert_to_string(self) -> str:
         fraction = ""
         self.simplify_fraction()
-        integer_part = str(self.numerator // self.denominator) if self.numerator >= self.denominator else ""
-        fractional_part = str(self.numerator % self.denominator) + "/" + str(self.denominator) if self.numerator % self.denominator > 0 else ""
+        negative = "" if self.numerator >= 0 else "-"
+        integer_part = str(abs(self.numerator) // self.denominator) if abs(self.numerator) >= self.denominator or (self.numerator == 0 and abs(self.numerator) % self.denominator == 0) else ""
+        fractional_part = str(abs(self.numerator) % self.denominator) + "/" + str(self.denominator) if abs(self.numerator) % self.denominator > 0 else ""
+        fraction += negative
         fraction += integer_part + "_" if integer_part != "" else ""
-        fraction += fractional_part if fractional_part != "" else ""
+        fraction += fractional_part
         fraction = fraction.replace("_", "") if fractional_part == "" else fraction
         return fraction
 

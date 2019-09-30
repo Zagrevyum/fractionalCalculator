@@ -32,6 +32,23 @@ sol = Fraction("6")
 assert 6, 1 == (sol.numerator, sol.denominator)
 assert "6" == sol.convert_to_string()
 
+##negatives
+sol = Fraction("-6")
+assert (-6, 1) == (sol.numerator, sol.denominator)
+assert "-6" == sol.convert_to_string()
+
+##negatives
+sol = Fraction("-6/4")
+assert (-6, 4) == (sol.numerator, sol.denominator)
+assert "-1_1/2" == sol.convert_to_string()
+
+
+sol = Fraction("0/4")
+print(sol.numerator, sol.denominator)
+assert (0, 4) == (sol.numerator, sol.denominator)
+assert "0" == sol.convert_to_string()
+
+
 
 
 ##empty string for special cases

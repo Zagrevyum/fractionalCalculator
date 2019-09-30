@@ -7,7 +7,7 @@ Legal operators shall be *, /, +, - (multiply, divide, add, subtract)
 Operands and operators shall be separated by one or more spaces
 Mixed numbers will be represented by whole_numerator/denominator. e.g. "3_1/4"
 Improper fractions and whole numbers are also allowed as operands
-Note: doesn't handle negative fractions
+Note: handle negative fractions
 Example runs:
 
  python main.py 1/2 * 3_3/4
