@@ -3,6 +3,7 @@ import sys
 from Calculator import Calculator
 from Fraction import Fraction
 
+
 # resolve in place higher precedence operations returns a list with the operations
 def resolve_higher_precedence_operations(operations: list) -> list:
     index = 2
