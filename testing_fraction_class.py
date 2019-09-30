@@ -27,6 +27,12 @@ sol = Fraction("18/8")
 assert 18, 8 == (sol.numerator, sol.denominator)
 assert "2_1/4" == sol.convert_to_string()
 
+##integer alone
+sol = Fraction("6")
+assert 6, 1 == (sol.numerator, sol.denominator)
+assert "6" == sol.convert_to_string()
+
+
 
 ##empty string for special cases
 sol2 = Fraction("")
